@@ -3,6 +3,7 @@ package ru.practicum.service;
 import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.practicum.model.EndpointHit;
 import ru.practicum.model.EndpointHitDto;
 import ru.practicum.model.ViewStats;
 import ru.practicum.repository.HitRepository;
@@ -18,8 +19,9 @@ public class StatsServiceImpl implements StatsService {
     private final StatsMapper statsMapper;
 
     @Override
-    public void saveHit(EndpointHitDto endpointHitDto) {
-        hitRepository.save(statsMapper.toEndpointHit(endpointHitDto));
+    public EndpointHitDto saveHit(EndpointHitDto hit) {
+        EndpointHit endpointHitSave = hitRepository.save(statsMapper.toEndpointHit(hit));
+        return statsMapper.toEndpointHitDto(endpointHitSave);
     }
 
     @Override
