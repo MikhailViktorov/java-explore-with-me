@@ -9,9 +9,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.model.HitDto;
-import ru.practicum.model.IStatsDto;
+import ru.practicum.model.ViewStats;
 import ru.practicum.service.StatsService;
 
+import javax.swing.text.View;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class StatsController {
     }
 
     @GetMapping("/stats")
-    public ResponseEntity<List<IStatsDto>> getStats(
+    public ResponseEntity<List<ViewStats>> getStats(
             @RequestParam @DateTimeFormat(pattern = DATE_FORMAT) LocalDateTime start,
             @RequestParam @DateTimeFormat(pattern = DATE_FORMAT) LocalDateTime end,
             @RequestParam(required = false) List<String> uris,

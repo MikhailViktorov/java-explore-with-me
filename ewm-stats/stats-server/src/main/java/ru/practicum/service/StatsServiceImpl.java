@@ -4,7 +4,7 @@ import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.practicum.model.HitDto;
-import ru.practicum.model.IStatsDto;
+import ru.practicum.model.ViewStats;
 import ru.practicum.repository.HitRepository;
 
 import java.time.LocalDateTime;
@@ -23,7 +23,7 @@ public class StatsServiceImpl implements StatsService {
     }
 
     @Override
-    public List<IStatsDto> findHitsByParams(LocalDateTime start, LocalDateTime end, List<String> uris,
+    public List<ViewStats> findHitsByParams(LocalDateTime start, LocalDateTime end, List<String> uris,
                                             Boolean unique
     ) {
         if (start.isAfter(end)) {
