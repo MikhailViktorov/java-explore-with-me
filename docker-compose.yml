@@ -8,14 +8,16 @@ services:
     depends_on:
       - stats-db
     environment:
-      - EWM_DATASOURCE_URL=jdbc:postgresql://stats-db:5432/stats
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://stat-db:5432/stat-db
+      - SPRING_DATASOURCE_USERNAME=ewm
+      - SPRING_DATASOURCE_PASSWORD=ewm
     restart: on-failure
 
   stats-db:
     image: postgres:14-alpine
     container_name: stats-db
     ports:
-      - "6541:5432"
+      - "5432:5432"
     environment:
       - POSTGRES_DB=stats
       - POSTGRES_USER=root
