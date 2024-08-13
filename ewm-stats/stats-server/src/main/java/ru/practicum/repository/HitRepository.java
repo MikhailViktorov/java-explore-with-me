@@ -3,14 +3,14 @@ package ru.practicum.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-import ru.practicum.model.Hit;
+import ru.practicum.model.EndpointHit;
 import ru.practicum.model.ViewStats;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
-public interface HitRepository extends JpaRepository<Hit, Long> {
+public interface HitRepository extends JpaRepository<EndpointHit, Long> {
 
     @Query(value = "select h.app, h.uri, count(h.*) as hits from hits h "
             + "where timestamp between ?1 and ?2 "

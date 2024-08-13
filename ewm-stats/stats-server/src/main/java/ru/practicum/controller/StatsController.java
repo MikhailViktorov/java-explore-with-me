@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.model.HitDto;
+import ru.practicum.model.EndpointHitDto;
 import ru.practicum.model.ViewStats;
 import ru.practicum.service.StatsService;
 
@@ -26,8 +26,8 @@ public class StatsController {
 
 
     @PostMapping("/hit")
-    public ResponseEntity<HitDto> saveHit(@Valid @RequestBody HitDto hitDto) {
-        statsService.saveHit(hitDto);
+    public ResponseEntity<EndpointHitDto> saveHit(@Valid @RequestBody EndpointHitDto endpointHitDto) {
+        statsService.saveHit(endpointHitDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

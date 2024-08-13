@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.DefaultUriBuilderFactory;
-import ru.practicum.model.HitDto;
+import ru.practicum.model.EndpointHitDto;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -28,8 +28,8 @@ public class StatsClient extends BaseClient {
 
     public ResponseEntity<Object> hit(String uri, String ip,
                                       LocalDateTime requestDateTime) {
-        HitDto hitDto = new HitDto(MAIN_SERVICE_NAME, uri, ip, requestDateTime);
-        return post(hitDto);
+        EndpointHitDto endpointHitDto = new EndpointHitDto(MAIN_SERVICE_NAME, uri, ip, requestDateTime);
+        return post(endpointHitDto);
     }
 
     public ResponseEntity<Object> getStats(LocalDateTime startDateTime, LocalDateTime endDateTime) {

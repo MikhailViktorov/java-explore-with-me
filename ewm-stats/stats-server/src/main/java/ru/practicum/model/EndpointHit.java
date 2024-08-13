@@ -12,21 +12,15 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Entity
 @Table(name = "hits")
-public class Hit {
+public class EndpointHit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(nullable = false)
+    @Column(name = "app")
     private String app;
-
-    @Column(nullable = false)
     private String uri;
-
-    @Column(nullable = false)
     private String ip;
-
-    @Column(nullable = false)
+    @Column(name = "time_stamp")
     private LocalDateTime timestamp;
 }
