@@ -21,3 +21,4 @@ services:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
     restart: on-failure
+
