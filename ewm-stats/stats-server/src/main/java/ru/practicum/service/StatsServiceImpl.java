@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import ru.practicum.model.EndpointHit;
 import ru.practicum.model.EndpointHitDto;
 import ru.practicum.model.ViewStats;
+import ru.practicum.model.ViewStatsDto;
 import ru.practicum.repository.HitRepository;
 
 import java.time.LocalDateTime;
@@ -25,8 +26,8 @@ public class StatsServiceImpl implements StatsService {
     }
 
     @Override
-    public List<ViewStats> findHitsByParams(LocalDateTime start, LocalDateTime end, List<String> uris,
-                                            Boolean unique
+    public List<ViewStatsDto> findHitsByParams(LocalDateTime start, LocalDateTime end, List<String> uris,
+                                               Boolean unique
     ) {
         if (start.isAfter(end)) {
             throw new ValidationException("Начало не может быть после конца");
@@ -34,14 +35,14 @@ public class StatsServiceImpl implements StatsService {
 
         if (uris != null && !uris.isEmpty()) {
             if (unique) {
-                return hitRepository.findDistinctHitsByUris(start, end, uris);
+                return statsMapper.toViewStatsDtoList(hitRepository.findDistinctHitsByUris(start, end, uris));
             }
-            return hitRepository.findHitsByUris(start, end, uris);
+            return statsMapper.toViewStatsDtoList(hitRepository.findHitsByUris(start, end, uris));
         }
         if (unique) {
-            return hitRepository.findDistinctHits(start, end);
+            return statsMapper.toViewStatsDtoList(hitRepository.findDistinctHits(start, end));
         }
-        return hitRepository.findHits(start, end);
+        return statsMapper.toViewStatsDtoList(hitRepository.findHits(start, end));
     }
 
 }

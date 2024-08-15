@@ -9,6 +9,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.model.EndpointHitDto;
 import ru.practicum.model.ViewStats;
+import ru.practicum.model.ViewStatsDto;
 import ru.practicum.service.StatsService;
 
 import java.time.LocalDateTime;
@@ -26,11 +27,12 @@ public class StatsController {
 
     @PostMapping("/hit")
     public ResponseEntity<EndpointHitDto> saveHit(@Valid @RequestBody EndpointHitDto endpointHitDto) {
+        log.info("POST /hit: endpoint={}", endpointHitDto);
         return ResponseEntity.ok().body(statsService.saveHit(endpointHitDto));
     }
 
     @GetMapping("/stats")
-    public ResponseEntity<List<ViewStats>> getStats(
+    public ResponseEntity<List<ViewStatsDto>> getStats(
             @RequestParam @DateTimeFormat(pattern = DATE_FORMAT) LocalDateTime start,
             @RequestParam @DateTimeFormat(pattern = DATE_FORMAT) LocalDateTime end,
             @RequestParam(required = false) List<String> uris,
