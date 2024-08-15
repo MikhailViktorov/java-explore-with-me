@@ -32,16 +32,17 @@ public class StatsServiceImpl implements StatsService {
             throw new ValidationException("Начало не может быть после конца");
         }
 
-        if (uris != null && !uris.isEmpty()) {
-            if (unique) {
-                return statsMapper.toViewStatsDtoList(hitRepository.findDistinctHitsByUris(start, end, uris));
-            }
-            return statsMapper.toViewStatsDtoList(hitRepository.findHitsByUris(start, end, uris));
-        }
         if (unique) {
-            return statsMapper.toViewStatsDtoList(hitRepository.findDistinctHits(start, end));
+            if (uris == null) {
+                return statsMapper.toViewStatsDtoList(hitRepository.findDistinctHits(start,end));
+            }
+            return statsMapper.toViewStatsDtoList(hitRepository.findDistinctHitsByUris(start,end,uris));
         }
-        return statsMapper.toViewStatsDtoList(hitRepository.findHits(start, end));
+        if (uris == null) {
+            return statsMapper.toViewStatsDtoList(hitRepository.findHits(start,end));
+        }
+        return statsMapper.toViewStatsDtoList(hitRepository.findHitsByUris(start,end,uris));
+
     }
 
 }

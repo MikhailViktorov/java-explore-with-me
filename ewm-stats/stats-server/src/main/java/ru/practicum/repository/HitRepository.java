@@ -12,29 +12,33 @@ import java.util.List;
 @Repository
 public interface HitRepository extends JpaRepository<EndpointHit, Long> {
 
-    @Query(value = "select h.app, h.uri, count(h.*) as hits from hits h "
-            + "where h.timestamp between ?1 and ?2 "
-            + "group by h.uri, h.app "
-            + "order by count(h.*) desc", nativeQuery = true)
+    @Query("SELECT h.app, h.uri, COUNT (h.ip)"
+            + "FROM EndpointHit AS h "
+            + "WHERE h.timestamp BETWEEN ?1 and ?2 "
+            + "GROUP BY h.uri, h.app "
+            + "ORDER BY COUNT (h.ip) DESC ")
     List<ViewStats> findHits(LocalDateTime start, LocalDateTime end);
 
-    @Query(value = "select h.app, h.uri, count(distinct h.ip) as hits from hits h "
-            + "where h.timestamp between ?1 and ?2 "
-            + "group by h.uri, h.app "
-            + "order by count(distinct h.ip) desc", nativeQuery = true)
+    @Query("SELECT h.app, h.uri, count(h.ip) "
+            + "FROM EndpointHit AS h "
+            + "WHERE h.timestamp BETWEEN ?1 AND ?2 "
+            + "GROUP BY h.uri, h.app "
+            + "ORDER BY COUNT(h.ip) DESC ")
     List<ViewStats> findDistinctHits(LocalDateTime start, LocalDateTime end);
 
-    @Query(value = "select h.app, h.uri, count(distinct h.ip) as hits from hits h "
-            + "where h.timestamp between ?1 and ?2 "
-            + "and h.uri in (?3) "
-            + "group by h.uri, h.app "
-            + "order by count(distinct h.ip)", nativeQuery = true)
+    @Query("SELECT h.app, h.uri, count(distinct h.ip) "
+            + "FROM EndpointHit h "
+            + "WHERE h.timestamp BETWEEN ?1 AND ?2 "
+            + "AND h.uri IN ?3 "
+            + "GROUP BY h.uri, h.app "
+            + "ORDER BY COUNT (h.ip) DESC ")
     List<ViewStats> findDistinctHitsByUris(LocalDateTime start, LocalDateTime end, List<String> uris);
 
-    @Query(value = "select h.app, h.uri, count(h.*) as hits from hits h "
-            + "where h.timestamp between ?1 and ?2 "
-            + "and h.uri in (?3) "
-            + "group by h.uri, h.app "
-            + "order by count(h.*) desc", nativeQuery = true)
+    @Query("SELECT h.app, h.uri, COUNT (h.ip)"
+            + "FROM EndpointHit h "
+            + "WHERE h.timestamp BETWEEN ?1 AND ?2 "
+            + "AND h.uri in ?3 "
+            + "GROUP BY h.uri, h.app "
+            + "ORDER BY COUNT (h.ip) DESC ")
     List<ViewStats> findHitsByUris(LocalDateTime start, LocalDateTime end, List<String> uris);
 }
