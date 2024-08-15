@@ -1,40 +1,93 @@
 package ru.practicum.client;
 
-import jakarta.annotation.Nullable;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
+import org.springframework.lang.Nullable;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Map;
 
-@RequiredArgsConstructor
 public class BaseClient {
-    protected final RestTemplate restTemplate;
+    protected final RestTemplate rest;
 
-    protected ResponseEntity<Object> get(String uri, @Nullable Map<String, Object> parameters) {
-        return sendRequest(uri, HttpMethod.GET, null, parameters);
+    public BaseClient(RestTemplate rest) {
+        this.rest = rest;
     }
 
-    protected <T> ResponseEntity<Object> post(String uri, @Nullable T body,
-                                              @jakarta.annotation.Nullable Map<String, Object> parameters) {
-        return sendRequest(uri, HttpMethod.POST, body, parameters);
-    }
-
-    private <T> ResponseEntity<Object> sendRequest(String uri, HttpMethod method,
-                                                   @Nullable T body,
-                                                   @Nullable Map<String, Object> parameters) {
-
-        HttpEntity<T> request = new HttpEntity<>(body, defaultHeaders());
-
-        ResponseEntity<Object> response;
-
-        if (parameters == null) {
-            response = restTemplate.exchange(uri, method, request, Object.class);
-        } else {
-            response = restTemplate.exchange(uri, method, request, Object.class, parameters);
+    private static ResponseEntity<Object> prepareResponse(ResponseEntity<Object> response) {
+        if (response.getStatusCode().is2xxSuccessful()) {
+            return response;
         }
-        return response;
+
+        ResponseEntity.BodyBuilder responseBuilder = ResponseEntity.status(response.getStatusCode());
+
+        if (response.hasBody()) {
+            return responseBuilder.body(response.getBody());
+        }
+
+        return responseBuilder.build();
+    }
+
+
+    protected ResponseEntity<Object> get(String path) {
+        return get(path, null);
+    }
+
+    protected ResponseEntity<Object> get(String path, @org.springframework.lang.Nullable Map<String, Object> parameters) {
+        return makeAndSendRequest(HttpMethod.GET, path, parameters, null);
+    }
+
+    protected <T> ResponseEntity<Object> post(String path, T body) {
+        return post(path, null, body);
+    }
+
+    protected <T> ResponseEntity<Object> post(String path, @org.springframework.lang.Nullable Map<String, Object> parameters, T body) {
+        return makeAndSendRequest(HttpMethod.POST, path, parameters, body);
+    }
+
+    protected <T> ResponseEntity<Object> put(String path, T body) {
+        return put(path, null, body);
+    }
+
+    protected <T> ResponseEntity<Object> put(String path, @org.springframework.lang.Nullable Map<String, Object> parameters, T body) {
+        return makeAndSendRequest(HttpMethod.PUT, path, parameters, body);
+    }
+
+    protected <T> ResponseEntity<Object> patch(String path) {
+        return patch(path, null, null);
+    }
+
+    protected <T> ResponseEntity<Object> patch(String path, T body) {
+        return patch(path, null, body);
+    }
+
+    protected <T> ResponseEntity<Object> patch(String path, @org.springframework.lang.Nullable Map<String, Object> parameters, T body) {
+        return makeAndSendRequest(HttpMethod.PATCH, path, parameters, body);
+    }
+
+    protected ResponseEntity<Object> delete(String path) {
+        return delete(path, null);
+    }
+
+    protected ResponseEntity<Object> delete(String path, @org.springframework.lang.Nullable Map<String, Object> parameters) {
+        return makeAndSendRequest(HttpMethod.DELETE, path, parameters, null);
+    }
+
+    private <T> ResponseEntity<Object> makeAndSendRequest(HttpMethod method, String path, @org.springframework.lang.Nullable Map<String, Object> parameters, @Nullable T body) {
+        HttpEntity<T> requestEntity = new HttpEntity<>(body, defaultHeaders());
+
+        ResponseEntity<Object> shareitServerResponse;
+        try {
+            if (parameters != null) {
+                shareitServerResponse = rest.exchange(path, method, requestEntity, Object.class, parameters);
+            } else {
+                shareitServerResponse = rest.exchange(path, method, requestEntity, Object.class);
+            }
+        } catch (HttpStatusCodeException e) {
+            return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsByteArray());
+        }
+        return prepareResponse(shareitServerResponse);
     }
 
     private HttpHeaders defaultHeaders() {
