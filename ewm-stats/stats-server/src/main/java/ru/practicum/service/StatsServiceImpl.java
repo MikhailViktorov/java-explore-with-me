@@ -3,7 +3,6 @@ package ru.practicum.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.practicum.mapper.EndpointHitMapper;
-import ru.practicum.mapper.StatsMapper;
 import ru.practicum.model.EndpointHit;
 import ru.practicum.model.EndpointHitDto;
 import ru.practicum.model.ViewStatsDto;
@@ -17,12 +16,12 @@ import java.util.List;
 public class StatsServiceImpl implements StatsService {
 
     private final HitRepository hitRepository;
-    private final StatsMapper statsMapper;
 
     @Override
-    public void saveHit(EndpointHitDto endpointHitDto) {
+    public EndpointHitDto saveHit(EndpointHitDto endpointHitDto) {
         EndpointHit endpointHit = EndpointHitMapper.mapToEndpointHit(endpointHitDto);
         hitRepository.save(endpointHit);
+        return EndpointHitMapper.mapToEndpointHitDto(endpointHit);
     }
 
     @Override

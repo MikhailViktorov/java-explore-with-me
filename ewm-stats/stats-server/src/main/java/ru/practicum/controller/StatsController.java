@@ -25,6 +25,8 @@ public class StatsController {
 
     @PostMapping("/hit")
     public ResponseEntity<EndpointHitDto> saveHit(@RequestBody @Valid EndpointHitDto endpointHitDto) {
+        log.info("StatisticController, saveHit, Request body app: {}, uri: {}, ip: {}, timestamp: {}",
+                endpointHitDto.getApp(), endpointHitDto.getUri(), endpointHitDto.getIp(), endpointHitDto.getTimestamp());
         statsService.saveHit(endpointHitDto);
         return new ResponseEntity<>(endpointHitDto, HttpStatus.OK);
     }
@@ -36,6 +38,8 @@ public class StatsController {
             @RequestParam(required = false, value = "uris") List<String> uris,
             @RequestParam(required = false, value = "unique") boolean unique
     ) {
+        log.info("Statistic Controller, getStats, parameters: start {}, end {}, uris {}, unique {}",
+                start, end, uris, unique);
         List<ViewStatsDto> statsList = statsService.findHitsByParams(start, end, uris, unique);
         return new ResponseEntity<>(statsList, HttpStatus.OK);
     }
