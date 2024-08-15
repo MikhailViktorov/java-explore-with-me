@@ -28,21 +28,22 @@ public class StatsServiceImpl implements StatsService {
     public List<ViewStatsDto> findHitsByParams(LocalDateTime start, LocalDateTime end, List<String> uris,
                                                Boolean unique
     ) {
+        List<ViewStatsDto> stats;
         if (start.isAfter(end)) {
             throw new ValidationException("Начало не может быть после конца");
         }
 
         if (unique) {
             if (uris == null) {
-                return statsMapper.toViewStatsDtoList(hitRepository.findDistinctHits(start,end));
+                stats = hitRepository.findDistinctHits(start, end);
             }
-            return statsMapper.toViewStatsDtoList(hitRepository.findDistinctHitsByUris(start,end,uris));
+            stats = hitRepository.findDistinctHitsByUris(start, end, uris);
         }
         if (uris == null) {
-            return statsMapper.toViewStatsDtoList(hitRepository.findHits(start,end));
+            stats = hitRepository.findHits(start, end);
+        } else {
+            stats = hitRepository.findHitsByUris(start, end, uris);
         }
-        return statsMapper.toViewStatsDtoList(hitRepository.findHitsByUris(start,end,uris));
-
+        return stats;
     }
-
 }
