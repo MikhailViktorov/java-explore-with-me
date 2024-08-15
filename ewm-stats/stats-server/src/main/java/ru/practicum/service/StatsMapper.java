@@ -14,6 +14,7 @@ public interface StatsMapper {
     EndpointHit toEndpointHit(EndpointHitDto endpointHitDto);
 
     EndpointHitDto toEndpointHitDto(EndpointHit endpointHit);
+
     ViewStatsDto toViewStats(ViewStats viewStats);
 
     List<ViewStatsDto> toViewStatsDtoList(List<ViewStats> viewStats);

@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.practicum.model.EndpointHit;
 import ru.practicum.model.EndpointHitDto;
-import ru.practicum.model.ViewStats;
 import ru.practicum.model.ViewStatsDto;
 import ru.practicum.repository.HitRepository;
 

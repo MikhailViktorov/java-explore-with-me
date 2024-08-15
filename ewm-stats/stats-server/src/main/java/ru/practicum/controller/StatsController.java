@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.model.EndpointHitDto;
-import ru.practicum.model.ViewStats;
 import ru.practicum.model.ViewStatsDto;
 import ru.practicum.service.StatsService;
 
