@@ -8,7 +8,6 @@ import ru.practicum.model.ViewStatsDto;
 import ru.practicum.repository.HitRepository;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -28,15 +27,10 @@ public class StatsServiceImpl implements StatsService {
     public List<ViewStatsDto> findHitsByParams(LocalDateTime start, LocalDateTime end, List<String> uris,
                                                Boolean unique
     ) {
-        if (uris == null) {
-            uris = Collections.emptyList();
-        }
-        List<ViewStatsDto> stats;
-        if (unique) {
-            stats = hitRepository.findAllUnique(start, end, uris);
+        if (Boolean.TRUE.equals(unique)) {
+            return hitRepository.findAllUnique(start, end, uris);
         } else {
-            stats = hitRepository.findAll(start, end, uris);
+            return hitRepository.findAll(start, end, uris);
         }
-        return stats;
     }
 }
