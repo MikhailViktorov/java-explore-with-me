@@ -34,8 +34,8 @@ public class StatsController {
     public ResponseEntity<List<ViewStatsDto>> getStats(
             @RequestParam @DateTimeFormat(pattern = DATE_FORMAT) LocalDateTime start,
             @RequestParam @DateTimeFormat(pattern = DATE_FORMAT) LocalDateTime end,
-            @RequestParam(required = false) List<String> uris,
-            @RequestParam(required = false, defaultValue = "false") Boolean unique
+            @RequestParam(defaultValue = "") List<String> uris,
+            @RequestParam(defaultValue = "false") boolean unique
     ) {
         List<ViewStatsDto> statsList = statsService.findHitsByParams(start, end, uris, unique);
         return new ResponseEntity<>(statsList, HttpStatus.OK);
