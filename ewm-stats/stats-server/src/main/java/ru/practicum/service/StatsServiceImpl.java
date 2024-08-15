@@ -1,6 +1,5 @@
 package ru.practicum.service;
 
-import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.practicum.model.EndpointHit;
