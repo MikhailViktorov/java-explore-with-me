@@ -2,6 +2,7 @@ package ru.practicum.controller;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -16,8 +17,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@AllArgsConstructor
-@Validated
+@RequiredArgsConstructor
 @Slf4j
 public class StatsController {
 
