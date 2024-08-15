@@ -27,7 +27,7 @@ public class StatsController {
 
     @PostMapping("/hit")
     public ResponseEntity<EndpointHitDto> saveHit(@Valid @RequestBody EndpointHitDto endpointHitDto) {
-        return new ResponseEntity<>(statsService.saveHit(endpointHitDto), HttpStatus.CREATED);
+        return ResponseEntity.ok().body(statsService.saveHit(endpointHitDto));
     }
 
     @GetMapping("/stats")
