@@ -1,27 +1,32 @@
+version: "3.1"
 services:
-
   stats-server:
-    build: ewm-stats/stats-server
-    container_name: stats-server
+    build: stats/stats-server
+    image: stats/stats-server
+    container_name: statsApp
     ports:
       - "9090:9090"
     depends_on:
       - stats-db
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://stats-db:5432/stats-db
-      - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=root
-      - SERVER_PORT=9090
-    restart: on-failure
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://stats-db:5432/statsDb
+      - SPRING_DATASOURCE_USERNAME=dbuser
+      - SPRING_DATASOURCE_PASSWORD=12345
+
 
   stats-db:
-    image: postgres:14-alpine
-    container_name: stats-db
+    image: postgres:16.1
+    container_name: statsDb
     ports:
       - "5432:5432"
+    volumes:
+      - ./volumes/postgres:/var/lib/postgresql/data/
     environment:
-      - POSTGRES_DB=stats
-      - POSTGRES_USER=root
-      - POSTGRES_PASSWORD=root
-    restart: on-failure
-
+      - POSTGRES_DB=statsDb
+      - POSTGRES_USER=dbuser
+      - POSTGRES_PASSWORD=12345
+    healthcheck:
+      test: pg_isready -q -d $$POSTGRES_DB -U $$POSTGRES_USER
+      timeout: 5s
+      interval: 5s
+      retries: 10
