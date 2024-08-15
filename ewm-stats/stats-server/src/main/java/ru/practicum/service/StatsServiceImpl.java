@@ -9,6 +9,7 @@ import ru.practicum.model.ViewStatsDto;
 import ru.practicum.repository.HitRepository;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -28,21 +29,14 @@ public class StatsServiceImpl implements StatsService {
     public List<ViewStatsDto> findHitsByParams(LocalDateTime start, LocalDateTime end, List<String> uris,
                                                Boolean unique
     ) {
-        List<ViewStatsDto> stats;
-        if (start.isAfter(end)) {
-            throw new ValidationException("Начало не может быть после конца");
-        }
-
-        if (unique) {
-            if (uris == null) {
-                stats = hitRepository.findDistinctHits(start, end);
-            }
-            stats = hitRepository.findDistinctHitsByUris(start, end, uris);
-        }
         if (uris == null) {
-            stats = hitRepository.findHits(start, end);
+            uris = Collections.emptyList();
+        }
+        List<ViewStatsDto> stats;
+        if (unique) {
+            stats = hitRepository.findAllUnique(start, end, uris);
         } else {
-            stats = hitRepository.findHitsByUris(start, end, uris);
+            stats = hitRepository.findAll(start, end, uris);
         }
         return stats;
     }

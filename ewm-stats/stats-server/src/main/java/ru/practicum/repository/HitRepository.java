@@ -2,6 +2,7 @@ package ru.practicum.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import ru.practicum.model.EndpointHit;
 import ru.practicum.model.ViewStatsDto;
@@ -12,35 +13,23 @@ import java.util.List;
 @Repository
 public interface HitRepository extends JpaRepository<EndpointHit, Long> {
 
-    @Query("SELECT h.app, h.uri, COUNT (h.ip) AS hits "
-            + "FROM EndpointHit AS h "
-            + "WHERE h.timestamp BETWEEN ?1 and ?2 "
-            + "GROUP BY h.uri, h.app "
-            + "ORDER BY COUNT (h.ip) DESC ")
-    List<ViewStatsDto> findHits(LocalDateTime start, LocalDateTime end);
+    @Query("SELECT new ru.practicum.model.ViewStatsDto(h.app,h.uri,COUNT (h.ip)) " +
+            "FROM EndpointHit AS h " +
+            "WHERE h.timestamp " +
+            "BETWEEN :start AND :end AND (COALESCE(:uris, null) IS NULL OR h.uri IN :uris) " +
+            "GROUP BY h.app, h.uri " +
+            "ORDER BY COUNT(h.ip) DESC")
+    List<ViewStatsDto> findAll(@Param("start") LocalDateTime start,
+                               @Param("end") LocalDateTime end,
+                               @Param("uris") List<String> uris);
 
-    @Query("SELECT h.app, h.uri, count(h.ip) AS hits "
-            + "FROM EndpointHit AS h "
-            + "WHERE h.timestamp BETWEEN ?1 AND ?2 "
-            + "GROUP BY h.uri, h.app "
-            + "ORDER BY COUNT(h.ip) DESC ")
-    List<ViewStatsDto> findDistinctHits(LocalDateTime start, LocalDateTime end);
-
-    @Query("SELECT h.app, h.uri, count(distinct h.ip) AS hits "
-            + "FROM EndpointHit h "
-            + "WHERE h.timestamp BETWEEN ?1 AND ?2 "
-            + "AND h.uri IN ?3 "
-            + "GROUP BY h.uri, h.app "
-            + "ORDER BY COUNT (h.ip) DESC ")
-    List<ViewStatsDto> findDistinctHitsByUris(LocalDateTime start, LocalDateTime end, List<String> uris);
-
-    @Query("SELECT h.app, h.uri, COUNT (h.ip) AS hits "
-            + "FROM EndpointHit h "
-            + "WHERE h.timestamp BETWEEN ?1 AND ?2 "
-            + "AND h.uri in ?3 "
-            + "GROUP BY h.uri, h.app "
-            + "ORDER BY COUNT (h.ip) DESC ")
-    List<ViewStatsDto> findHitsByUris(LocalDateTime start, LocalDateTime end, List<String> uris);
-
-
+    @Query("SELECT new ru.practicum.model.ViewStatsDto(h.app,h.uri,COUNT (DISTINCT h.ip)) " +
+            "FROM EndpointHit AS h " +
+            "WHERE h.timestamp " +
+            "BETWEEN :start AND :end AND (:uris IS NULL OR h.uri IN :uris) " +
+            "GROUP BY h.app, h.uri " +
+            "ORDER BY COUNT(DISTINCT h.ip) DESC")
+    List<ViewStatsDto> findAllUnique(@Param("start") LocalDateTime start,
+                                     @Param("end") LocalDateTime end,
+                                     @Param("uris") List<String> uris);
 }
