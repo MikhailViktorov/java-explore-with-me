@@ -1,6 +1,8 @@
 package ru.practicum.client;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
@@ -16,11 +18,11 @@ import java.util.Map;
 @Service
 public class StatsClient extends BaseClient {
     private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
-    public StatsClient(RestTemplateBuilder builder, String serverUrl) {
+@Autowired
+    public StatsClient(@Value("${STATS_SERVICE_URL}") String serverUrl, RestTemplateBuilder builder) {
         super(builder
                 .uriTemplateHandler(new DefaultUriBuilderFactory(serverUrl))
-                .requestFactory(() -> new HttpComponentsClientHttpRequestFactory())
+                .requestFactory(HttpComponentsClientHttpRequestFactory.class)
                 .build());
     }
 
