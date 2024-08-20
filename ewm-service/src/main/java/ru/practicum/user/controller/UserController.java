@@ -35,6 +35,7 @@ public class UserController {
         userService.deleteUser(userId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
     @GetMapping
     public ResponseEntity<List<UserDto>> getAllUsers(@RequestParam(defaultValue = "") List<Long> ids,
                                                      @RequestParam(defaultValue = "0") @PositiveOrZero int from,
