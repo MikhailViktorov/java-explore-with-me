@@ -37,12 +37,12 @@ public class AdminEventController {
                                                             @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime rangeEnd,
                                                             @RequestParam(value = "from", defaultValue = "0", required = false) Integer from,
                                                             @RequestParam(value = "size", defaultValue = "10", required = false) Integer size) {
-        log.info("Admin event request ");
+        log.info("Admin: Поиск событий");
         int page = from / size;
         PageRequest pageRequest = PageRequest.of(page, size, Sort.unsorted());
 
         List<State> statesList = states.stream()
-                .map(State::fromString)
+                .map(State::getStateFromString)
                 .collect(Collectors.toList());
 
         List<EventDto> fullDtoList = adminEventService.getAllAdminEvents(
@@ -54,7 +54,7 @@ public class AdminEventController {
     @PatchMapping("/{eventId}")
     public ResponseEntity<EventDto> adminUpdate(@PathVariable Long eventId,
                                                 @RequestBody @Valid EventUpdateAdmin eventUpdateAdmin) {
-        log.info("Admin event update {}", eventUpdateAdmin);
+        log.info("Admin: Редактирование данных события и его статуса {}", eventUpdateAdmin);
         if (eventUpdateAdmin.getEventDate() != null
                 && eventUpdateAdmin.getEventDate().isBefore(LocalDateTime.now().plusHours(1))) {
             throw new ValidationException("Ошибка даты.");

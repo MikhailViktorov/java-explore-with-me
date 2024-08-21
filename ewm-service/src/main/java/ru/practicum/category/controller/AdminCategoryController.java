@@ -23,7 +23,7 @@ public class AdminCategoryController {
 
     @PostMapping
     public ResponseEntity<CategoryDto> addCategory(@RequestBody @Valid NewCategoryDto newCategoryDto) {
-        log.info("Category create: {}", newCategoryDto);
+        log.info("Добавление новой категории: {}", newCategoryDto);
         CategoryDto categoryDto = categoryService.addCategory(newCategoryDto);
         return new ResponseEntity<>(categoryDto, HttpStatus.CREATED);
     }
@@ -31,14 +31,14 @@ public class AdminCategoryController {
     @PatchMapping("/{categoryId}")
     public ResponseEntity<CategoryDto> updateCategory(@RequestBody @Valid NewCategoryDto newCategoryDTO,
                                                       @PathVariable @Positive Long categoryId) {
-        log.info("Category update: {}", newCategoryDTO);
+        log.info("Изменение категории с идентификатором: {}", newCategoryDTO);
         CategoryDto categoryDto = categoryService.updateCategory(categoryId, newCategoryDTO);
         return new ResponseEntity<>(categoryDto, HttpStatus.OK);
     }
 
     @DeleteMapping("/{categoryId}")
     public ResponseEntity<Void> deleteCategory(@PathVariable @Positive Long categoryId) {
-        log.info("Delete category with id " + categoryId);
+        log.info("Удаление категории с идентификатором: " + categoryId);
         categoryService.deleteCategory(categoryId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

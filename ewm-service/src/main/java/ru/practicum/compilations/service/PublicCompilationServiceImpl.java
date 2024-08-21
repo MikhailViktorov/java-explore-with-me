@@ -61,7 +61,7 @@ public class PublicCompilationServiceImpl extends CompilationBase implements Pub
     @Override
     public CompilationDto getCompilationById(Long compilationId) {
         Compilation compilation = compilationRepository.findById(compilationId).orElseThrow(()
-                -> new NotFoundException("Компиляция с id: " + compilationId + " Не найдена."));
+                -> new NotFoundException("Подборка с id: " + compilationId + " не найдена или недоступна"));
 
         Set<Event> allEvents = compilation.getEvents();
         Map<Long, Long> views = getViewsForEvents(allEvents);

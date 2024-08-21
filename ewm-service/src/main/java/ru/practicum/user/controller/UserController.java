@@ -24,14 +24,14 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<UserDto> addUser(@RequestBody @Valid NewUserRequest newUserRequest) {
-        log.info("Create user: {}", newUserRequest);
+        log.info("Добавление нового пользователя {}", newUserRequest);
         UserDto userDto = userService.addUser(newUserRequest);
         return new ResponseEntity<>(userDto, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{userId}")
     public ResponseEntity<Void> deleteUser(@PathVariable @Positive Long userId) {
-        log.info("Delete user with id  {}", userId);
+        log.info("Удаление пользователя с идентификатором {}", userId);
         userService.deleteUser(userId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
@@ -40,7 +40,7 @@ public class UserController {
     public ResponseEntity<List<UserDto>> getAllUsers(@RequestParam(defaultValue = "") List<Long> ids,
                                                      @RequestParam(defaultValue = "0") @PositiveOrZero int from,
                                                      @RequestParam(defaultValue = "10") @Positive int size) {
-        log.info("Admin request all users");
+        log.info("Admin: Получение информации о пользователях");
         int page = from / size;
         PageRequest pageRequest = PageRequest.of(page, size);
         List<UserDto> users = userService.getAllUsers(ids, pageRequest);

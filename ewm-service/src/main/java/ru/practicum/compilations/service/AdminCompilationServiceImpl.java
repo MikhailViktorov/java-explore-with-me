@@ -52,15 +52,7 @@ public class AdminCompilationServiceImpl extends CompilationBase implements Admi
         }
         Compilation compilation = compilationMapper.compilationDtoToCompilation(newCompilationDto, events);
 
-        Set<Event> allEvents = compilation.getEvents();
-        Map<Long, Long> views = getViewsForEvents(allEvents);
-        Map<Long, Long> confirmed = getConfirmedRequests(allEvents);
-
-        List<EventShortDto> eventShortDtos = allEvents.stream()
-                .map(event -> eventMapper.eventToEventShortDto(event,
-                        views.getOrDefault(event.getId(), 0L),
-                        confirmed.getOrDefault(event.getId(), 0L)))
-                .collect(Collectors.toList());
+        List<EventShortDto> eventShortDtos = createEventShortDto(compilation);
 
         return compilationMapper.compilationToCompilationDto(compilationRepository.save(compilation), eventShortDtos);
     }
@@ -90,16 +82,23 @@ public class AdminCompilationServiceImpl extends CompilationBase implements Admi
         if (compilationUpdateDto.getTitle() != null) {
             compilation.setTitle(compilationUpdateDto.getTitle());
         }
+
+        List<EventShortDto> eventShortDtos = createEventShortDto(compilation);
+
+        return compilationMapper.compilationToCompilationDto(compilationRepository.save(compilation), eventShortDtos);
+    }
+
+    private List<EventShortDto> createEventShortDto(Compilation compilation) {
         Set<Event> allEvents = compilation.getEvents();
         Map<Long, Long> views = getViewsForEvents(allEvents);
         Map<Long, Long> confirmed = getConfirmedRequests(allEvents);
 
-        List<EventShortDto> eventShortDtos = allEvents.stream()
+        return allEvents.stream()
                 .map(event -> eventMapper.eventToEventShortDto(event,
                         views.getOrDefault(event.getId(), 0L),
                         confirmed.getOrDefault(event.getId(), 0L)))
                 .collect(Collectors.toList());
 
-        return compilationMapper.compilationToCompilationDto(compilationRepository.save(compilation), eventShortDtos);
+
     }
 }

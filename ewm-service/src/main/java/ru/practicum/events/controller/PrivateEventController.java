@@ -37,7 +37,7 @@ public class PrivateEventController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<EventDto> addEvent(@PathVariable Long userId,
                                              @Valid @RequestBody NewEventDto dto) {
-        log.info("Event creation by initiator {}", dto);
+        log.info("Добавление нового события {}, пользователем с идентификатором {}", dto, userId);
         if (dto.getEventDate() != null
                 && dto.getEventDate().isBefore(LocalDateTime.now().plusHours(1))) {
             throw new ValidationException("Ошибка даты");
@@ -51,7 +51,7 @@ public class PrivateEventController {
                                            @PathVariable Long eventId,
                                            @RequestBody @Valid EventUpdateUser eventUpdateUser
     ) {
-        log.info("Event update by initiator {}", eventUpdateUser);
+        log.info("Изменение события {}, пользователем с идентификатором {}", eventId, userId);
         if (eventUpdateUser.getEventDate() != null
                 && eventUpdateUser.getEventDate().isBefore(LocalDateTime.now().plusHours(1))) {
             throw new ValidationException("Ошибка даты");
@@ -65,6 +65,7 @@ public class PrivateEventController {
             @PathVariable @Positive Long userId,
             @RequestParam(value = "from", defaultValue = "0", required = false) @PositiveOrZero int from,
             @RequestParam(value = "size", defaultValue = "10", required = false) @Positive int size) {
+        log.info("Получение событий, добавленных пользователем с идентификатором {}", userId);
         int page = from / size;
         PageRequest pageRequest = PageRequest.of(page, size);
         List<EventShortDto> list = privateEventService.getEventsByUser(userId, pageRequest);
@@ -73,12 +74,14 @@ public class PrivateEventController {
 
     @GetMapping("/{eventId}")
     public ResponseEntity<EventDto> getEventByUserAndEvent(@PathVariable Long userId, @PathVariable Long eventId) {
+        log.info("Получение полной информации о событии {}, добавленном пользователем с идентификатором {}", eventId, userId);
         EventDto result = privateEventService.getEventByUserAndEvent(userId, eventId);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping("/{eventId}/requests")
     public ResponseEntity<List<ParticipationRequestDto>> getEventRequests(@PathVariable Long userId, @PathVariable Long eventId) {
+        log.info("Получение информации о запросах на участие в событии {}, пользователя с идентификатором {}", eventId, userId);
         List<ParticipationRequestDto> requests = requestService.getEventRequests(userId, eventId);
         return new ResponseEntity<>(requests, HttpStatus.OK);
     }
@@ -88,6 +91,7 @@ public class PrivateEventController {
             @PathVariable Long userId,
             @PathVariable Long eventId,
             @RequestBody @Valid EventRequestStatusUpdateRequest eventRequestStatusUpdateRequest) {
+        log.info("Изменение статуса заявок на участие в событии {}, пользователя с идентификатором {}", eventId,userId);
         EventRequestStatusUpdateResult result = requestService.updateRequestStatus(userId, eventId, eventRequestStatusUpdateRequest);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }

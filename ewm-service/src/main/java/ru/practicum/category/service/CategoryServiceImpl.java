@@ -31,9 +31,7 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryMapper.categoryToCategoryDto(category);
     }
 
-    /**
-     * public
-     */
+
     @Override
     public List<CategoryDto> getAllCategories(PageRequest pageRequest) {
         List<Category> categories = categoryRepository.findAll(pageRequest).toList();
@@ -51,9 +49,7 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryMapper.categoryToCategoryDto(newCategory);
     }
 
-    /**
-     * admin
-     */
+
     @Override
     public void deleteCategory(Long categoryId) {
         categoryRepository.findById(categoryId).orElseThrow(()
@@ -61,9 +57,7 @@ public class CategoryServiceImpl implements CategoryService {
         categoryRepository.deleteById(categoryId);
     }
 
-    /**
-     * admin
-     */
+
     @Override
     public CategoryDto updateCategory(Long categoryId, NewCategoryDto newCategoryDTO) {
         Category category = categoryRepository.findById(categoryId).orElseThrow(()

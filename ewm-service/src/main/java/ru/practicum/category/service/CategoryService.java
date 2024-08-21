@@ -13,9 +13,6 @@ public interface CategoryService {
      */
     CategoryDto getCategoryById(Long categoryId);
 
-    /**
-     * public
-     */
     List<CategoryDto> getAllCategories(PageRequest pageRequest);
 
     /**
@@ -23,13 +20,8 @@ public interface CategoryService {
      */
     CategoryDto addCategory(NewCategoryDto newCategoryDto);
 
-    /**
-     * admin
-     */
+
     void deleteCategory(Long categoryId);
 
-    /**
-     * admin
-     */
     CategoryDto updateCategory(Long categoryId, NewCategoryDto newCategoryDTO);
 }

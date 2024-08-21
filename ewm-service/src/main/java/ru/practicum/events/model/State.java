@@ -5,7 +5,7 @@ public enum State {
     PUBLISHED,
     CANCELED;
 
-    public static State fromString(String stringState) {
+    public static State getStateFromString(String stringState) {
         for (State state : State.values()) {
             if (state.name().equalsIgnoreCase(stringState)) {
                 return state;
