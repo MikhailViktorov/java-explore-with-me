@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.Future;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
-import ru.practicum.location.model.Location;
+import ru.practicum.location.dto.LocationDto;
 
 import java.time.LocalDateTime;
 
@@ -29,7 +29,7 @@ public class EventUpdateAdmin {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime eventDate;
 
-    private Location location;
+    private LocationDto location;
 
     private Boolean paid;
 

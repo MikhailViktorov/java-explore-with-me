@@ -15,6 +15,7 @@ import ru.practicum.events.repository.EventRepository;
 import ru.practicum.exception.NotFoundException;
 import ru.practicum.exception.ValidationException;
 import ru.practicum.exception.ViolationException;
+import ru.practicum.location.mapper.LocationMapper;
 import ru.practicum.location.repository.LocationRepository;
 import ru.practicum.requests.repository.RequestRepository;
 
@@ -35,6 +36,8 @@ public class AdminEventServiceImpl extends EventBase implements AdminEventServic
 
     private final LocationRepository locationRepository;
 
+    private final LocationMapper locationMapper;
+
     private final EventMapper eventMapper;
 
     public AdminEventServiceImpl(EventRepository eventRepository,
@@ -42,12 +45,14 @@ public class AdminEventServiceImpl extends EventBase implements AdminEventServic
                                  LocationRepository locationRepository,
                                  EventMapper eventMapper,
                                  RequestRepository requestRepository,
-                                 StatsClient statsClient) {
+                                 StatsClient statsClient,
+                                 LocationMapper locationMapper) {
         super(requestRepository, statsClient);
         this.eventRepository = eventRepository;
         this.categoryRepository = categoryRepository;
         this.locationRepository = locationRepository;
         this.eventMapper = eventMapper;
+        this.locationMapper = locationMapper;
     }
 
     @Override
@@ -115,7 +120,8 @@ public class AdminEventServiceImpl extends EventBase implements AdminEventServic
         Optional.ofNullable(eventUpdateAdmin.getParticipantLimit()).ifPresent(event::setParticipantLimit);
 
         if (eventUpdateAdmin.getLocation() != null) {
-            event.setLocation(locationRepository.save(eventUpdateAdmin.getLocation()));
+            event.setLocation(locationRepository.save(locationMapper.locationDtoToLocation(eventUpdateAdmin.getLocation())));
+            ;
         }
 
         if (eventUpdateAdmin.getCategory() != null) {

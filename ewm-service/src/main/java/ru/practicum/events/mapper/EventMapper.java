@@ -9,6 +9,7 @@ import ru.practicum.events.dto.EventShortDto;
 import ru.practicum.events.dto.EventUpdateUser;
 import ru.practicum.events.dto.NewEventDto;
 import ru.practicum.events.model.Event;
+import ru.practicum.location.mapper.LocationMapper;
 import ru.practicum.location.model.Location;
 import ru.practicum.user.mapper.UserMapper;
 import ru.practicum.user.model.User;
@@ -27,6 +28,7 @@ public class EventMapper {
     private final UserMapper userMapper;
 
     private final CategoryMapper categoryMapper;
+    private final LocationMapper locationMapper;
 
     public EventDto eventToEventDto(Event event, Long confirmedRequests, Long views) {
         String publishedOn = null;
@@ -45,7 +47,7 @@ public class EventMapper {
                 event.getParticipantLimit(),
                 event.getState(),
                 event.getCreatedOn().format(formatter),
-                event.getLocation(),
+                locationMapper.locationToLocationDto(event.getLocation()),
                 event.getRequestModeration(),
                 confirmedRequests,
                 publishedOn,
@@ -80,7 +82,7 @@ public class EventMapper {
             event.setDescription(eventUpdateDto.getDescription());
         }
         if (eventUpdateDto.getLocation() != null) {
-            event.setLocation(eventUpdateDto.getLocation());
+            locationMapper.locationDtoToLocation(eventUpdateDto.getLocation());
         }
         if (eventUpdateDto.getPaid() != null) {
             event.setPaid(eventUpdateDto.getPaid());

@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
-import ru.practicum.location.model.Location;
+import ru.practicum.location.dto.LocationDto;
 
 import java.time.LocalDateTime;
 
@@ -28,7 +28,7 @@ public class EventUpdateUser {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime eventDate;
 
-    private Location location;
+    private LocationDto location;
 
     private Boolean paid;
 
