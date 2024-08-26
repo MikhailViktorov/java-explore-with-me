@@ -505,7 +505,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n\"annotation\": \"Musical concert: Something Musical 2024\",\r\n\"category\": {{categoryId1}},\r\n\"description\": \"A monthly, semi-experimental indie showcase curated by Endless River in association with DTLA Artnight. Enjoy live music and browse the charming gallery of local artist S.C. Mero!\",\r\n\"eventDate\": \"2024-09-05 19:00:00\",\r\n\"location\": {\r\n\"lat\": 45.666,\r\n\"lon\": -110.258\r\n},\r\n\"paid\": true,\r\n\"participantLimit\": 10,\r\n\"requestModeration\": false,\r\n\"title\": \"Endless River creates memories by weaving music, community, and creativity.\"\r\n}",
+              "raw": "{\r\n\"annotation\": \"Musical concert: Something Musical 2024\",\r\n\"category\": {{categoryId1}},\r\n\"description\": \"A monthly, semi-experimental indie showcase curated by Endless River in association with DTLA Artnight. Enjoy live music and browse the charming gallery of local artist S.C. Mero!\",\r\n\"eventDate\": \"024-08-28 11:00:00\",\r\n\"location\": {\r\n\"lat\": 45.666,\r\n\"lon\": -110.258\r\n},\r\n\"paid\": true,\r\n\"participantLimit\": 10,\r\n\"requestModeration\": false,\r\n\"title\": \"Endless River creates memories by weaving music, community, and creativity.\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
