@@ -14,6 +14,7 @@ import ru.practicum.events.model.Event;
 import ru.practicum.events.repository.EventRepository;
 import ru.practicum.exception.NotFoundException;
 import ru.practicum.exception.ValidationException;
+import ru.practicum.exception.ViolationException;
 import ru.practicum.location.mapper.LocationMapper;
 import ru.practicum.location.repository.LocationRepository;
 import ru.practicum.requests.repository.RequestRepository;
@@ -25,8 +26,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static ru.practicum.events.model.State.CANCELED;
-import static ru.practicum.events.model.State.PUBLISHED;
+import static ru.practicum.events.model.State.*;
 
 @Service
 public class AdminEventServiceImpl extends EventBase implements AdminEventService {
@@ -98,6 +98,10 @@ public class AdminEventServiceImpl extends EventBase implements AdminEventServic
     public EventDto updateEvent(Long eventId, EventUpdateAdmin eventUpdateAdmin) {
         Event event = eventRepository.findById(eventId)
                 .orElseThrow(() -> new NotFoundException("Событие с id: " + eventId + " не найдено."));
+
+        if (!event.getState().equals(PENDING)) {
+            throw new ViolationException("Дата события не может быть изменена.");
+        }
 
         if (LocalDateTime.now().isAfter(event.getEventDate())) {
             throw new ValidationException("Ошибка даты.");
