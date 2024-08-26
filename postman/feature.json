@@ -1,6 +1,6 @@
 {
   "info": {
-    "_postman_id": "3cfbda1a-f1ce-434e-8a4f-44ffc1eb439d",
+    "_postman_id": "401f0dc8-8a3e-4322-9a8f-c8bc983ac7f1",
     "name": "feature",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "34087239"
@@ -253,7 +253,7 @@
           "response": []
         },
         {
-          "name": "Create event 1",
+          "name": "Create event",
           "event": [
             {
               "listen": "test",
@@ -365,7 +365,7 @@
           "response": []
         },
         {
-          "name": "update event state 1",
+          "name": "update event state",
           "event": [
             {
               "listen": "test",
@@ -417,176 +417,6 @@
                 "admin",
                 "events",
                 "1"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Create event2",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status code is 200 or 201\", function () {\r",
-                  "    pm.expect(pm.response.code).to.be.oneOf([200,201]);\r",
-                  "});\r",
-                  "pm.test(\"Has comment create response\", function () {\r",
-                  "    pm.response.to.be.withBody;\r",
-                  "    pm.response.to.be.json;\r",
-                  "});\r",
-                  "pm.test(\"Has comment create response\", function () {\r",
-                  "    pm.response.to.be.withBody;\r",
-                  "    pm.response.to.be.json;\r",
-                  "});\r",
-                  "pm.test(\"Test comment 'id' field\", function () {\r",
-                  "    var jsonData = pm.response.json();\r",
-                  "    pm.expect(jsonData).to.have.property('id');\r",
-                  "    pm.globals.set(\"eventId2\", jsonData.id);\r",
-                  "});\r",
-                  "pm.test(\"Test event 'title' field\", function () {\r",
-                  "    var jsonData = pm.response.json();\r",
-                  "    pm.expect(jsonData).to.have.property('title');\r",
-                  "});\r",
-                  "pm.test(\"Test event 'annotation' field\", function () {\r",
-                  "    var jsonData = pm.response.json();\r",
-                  "    pm.expect(jsonData).to.have.property('annotation');\r",
-                  "});\r",
-                  "pm.test(\"Test event 'category' field\", function () {\r",
-                  "    var jsonData = pm.response.json();\r",
-                  "    pm.expect(jsonData).to.have.property('category');\r",
-                  "});\r",
-                  "pm.test(\"Test event 'name' paid\", function () {\r",
-                  "    var jsonData = pm.response.json();\r",
-                  "    pm.expect(jsonData).to.have.property('paid');\r",
-                  "});\r",
-                  "pm.test(\"Test event 'eventDate' field\", function () {\r",
-                  "    var jsonData = pm.response.json();\r",
-                  "    pm.expect(jsonData).to.have.property('eventDate');\r",
-                  "});\r",
-                  "pm.test(\"Test event 'initiator' field\", function () {\r",
-                  "    var jsonData = pm.response.json();\r",
-                  "    pm.expect(jsonData).to.have.property('initiator');\r",
-                  "});\r",
-                  "pm.test(\"Test event 'description' field\", function () {\r",
-                  "    var jsonData = pm.response.json();\r",
-                  "    pm.expect(jsonData).to.have.property('description');\r",
-                  "});\r",
-                  "pm.test(\"Test event 'participantLimit' field\", function () {\r",
-                  "    var jsonData = pm.response.json();\r",
-                  "    pm.expect(jsonData).to.have.property('participantLimit');\r",
-                  "});\r",
-                  "pm.test(\"Test event 'state' field\", function () {\r",
-                  "    var jsonData = pm.response.json();\r",
-                  "    pm.expect(jsonData).to.have.property('state');\r",
-                  "});\r",
-                  "pm.test(\"Test event 'createdOn' field\", function () {\r",
-                  "    var jsonData = pm.response.json();\r",
-                  "    pm.expect(jsonData).to.have.property('createdOn');\r",
-                  "});\r",
-                  "pm.test(\"Test event 'location' field\", function () {\r",
-                  "    var jsonData = pm.response.json();\r",
-                  "    pm.expect(jsonData).to.have.property('location');\r",
-                  "});\r",
-                  "pm.test(\"Test event 'requestModeration' field\", function () {\r",
-                  "    var jsonData = pm.response.json();\r",
-                  "    pm.expect(jsonData).to.have.property('requestModeration');\r",
-                  "});\r",
-                  ""
-                ],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n\"annotation\": \"Musical concert: Something Musical 2024\",\r\n\"category\": {{categoryId1}},\r\n\"description\": \"A monthly, semi-experimental indie showcase curated by Endless River in association with DTLA Artnight. Enjoy live music and browse the charming gallery of local artist S.C. Mero!\",\r\n\"eventDate\": \"2024-09-05 19:00:00\",\r\n\"location\": {\r\n\"lat\": 45.666,\r\n\"lon\": -110.258\r\n},\r\n\"paid\": true,\r\n\"participantLimit\": 10,\r\n\"requestModeration\": false,\r\n\"title\": \"Endless River creates memories by weaving music, community, and creativity.\"\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "http://localhost:8080/users/:userId/events",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "8080",
-              "path": [
-                "users",
-                ":userId",
-                "events"
-              ],
-              "variable": [
-                {
-                  "key": "userId",
-                  "value": "{{userId2}}"
-                }
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "update event state 2",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status code is 201\", function () {\r",
-                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
-                  "});\r",
-                  "pm.test(\"Has event create response\", function () {\r",
-                  "    pm.response.to.be.withBody;\r",
-                  "    pm.response.to.be.json;\r",
-                  "});\r",
-                  "pm.test(\"Test event 'id' field\", function () {\r",
-                  "    var jsonData = pm.response.json();\r",
-                  "    pm.expect(jsonData).to.have.property('id');\r",
-                  "    pm.expect(jsonData.id, '\"id\" must be 2').to.eql(2);\r",
-                  "});\r",
-                  "pm.test(\"Test event 'state' field\", function () {\r",
-                  "    var jsonData = pm.response.json();\r",
-                  "    pm.expect(jsonData).to.have.property('state');\r",
-                  "    pm.expect(jsonData.state, '\"state\" must be \"PUBLISH_EVENT\"').to.eql('PUBLISHED');\r",
-                  "});"
-                ],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "request": {
-            "method": "PATCH",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"stateAction\": \"PUBLISH_EVENT\"\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "http://localhost:8080/admin/events/2",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "8080",
-              "path": [
-                "admin",
-                "events",
-                "2"
               ]
             }
           },
@@ -727,7 +557,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n    \"eventId\": \"2\",\r\n    \"text\": \"text for comment2\"\r\n}",
+          "raw": "{\r\n    \"eventId\": \"1\",\r\n    \"text\": \"text for comment2\"\r\n}",
           "options": {
             "raw": {
               "language": "json"
