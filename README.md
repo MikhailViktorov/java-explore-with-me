@@ -1,2 +1,2 @@
-# java-explore-with-me
-Template repository for ExploreWithMe project.
+FEATURE PR: https://github.com/MikhailViktorov/java-explore-with-me/pull/3
+
